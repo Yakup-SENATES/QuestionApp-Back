@@ -1,0 +1,26 @@
+.../users
+.../users/{userId}
+.../users/{userId}/profile
+
+
+.../posts
+.../posts?userId={userId}
+.../posts{postId}
+
+
+.../comments
+.../comments?postId={postId}
+.../comments?userId={userId}
+.../comments?postId={postId}&?userId={userId}
+.../comments/{commentId}
+
+
+.../likes
+.../likes?postId={postId}
+.../likes?userId={userId}
+.../likes?postId={postId}&user={userId}
+.../likes/{likeId}
+
+
+
+....Security Layer
