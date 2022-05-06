@@ -7,9 +7,10 @@ import lombok.Data;
 public class LikeResponse {
 
     Long id , userId, postId;
+
     public LikeResponse(Like entity){
         this.id= entity.getId();
-        this.userId = entity.getId();
-        this.postId = entity.getId();
+        this.userId = entity.getUser().getId();
+        this.postId = entity.getPost().getId();
     }
 }

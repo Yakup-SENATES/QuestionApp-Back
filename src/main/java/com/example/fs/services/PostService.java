@@ -1,39 +1,54 @@
 package com.example.fs.services;
 
+import com.example.fs.entities.Like;
 import com.example.fs.entities.Post;
 import com.example.fs.entities.User;
 import com.example.fs.repos.PostRepository;
 import com.example.fs.request.PostCreateRequest;
 import com.example.fs.request.PostUpdateRequest;
+import com.example.fs.response.LikeResponse;
+import com.example.fs.response.PostResponse;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PostService {
 
     private PostRepository postRepository;
     private UserService userService;
-
+    private LikeService likeService;
     /*
     * Constructor
     */
-    public PostService(PostRepository postRepository, UserService userService) {
+    public PostService(@Lazy PostRepository postRepository,@Lazy UserService userService,@Lazy LikeService likeService) {
         this.postRepository = postRepository;
         this.userService = userService;
-
+        this.likeService = likeService;
     }
 
+    public void setLikeService(LikeService likeService){
+        this.likeService = likeService;
+    }
 
     /*
     * Get All Posts
     */
-    public List<Post> getAllPosts(Optional<Long> userId) {
-        if (userId.isPresent())
-            return postRepository.findByUserId(userId.get());
-        return
-                postRepository.findAll();
+    public List<PostResponse> getAllPosts(Optional<Long> userId) {
+        List<Post> list;
+        if (userId.isPresent()) {
+            list = postRepository.findByUserId(userId.get());
+        }else {
+            list= postRepository.findAll();
+        }
+        return list.stream().map(post -> {
+          List<LikeResponse> likes= likeService.getAllLikes(Optional.ofNullable(null),Optional.of(post.getId()));
+            return  new PostResponse(post,likes);
+        }).collect(Collectors.toList());
+
     }
 
 

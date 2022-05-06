@@ -3,7 +3,9 @@ package com.example.fs.controllers;
 import com.example.fs.entities.Comments;
 import com.example.fs.request.CommentCreateRequest;
 import com.example.fs.request.CommentUpdateRequest;
+import com.example.fs.response.CommentResponse;
 import com.example.fs.services.CommentService;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,12 +17,12 @@ public class CommentController {
 
     private CommentService commentService;
 
-    public CommentController(CommentService commentService) {
+    public CommentController(@Lazy CommentService commentService) {
         this.commentService = commentService;
     }
 
     @GetMapping
-    public List<Comments> getAllComments(@RequestParam Optional<Long> userId, @RequestParam Optional<Long> postId){
+    public List<CommentResponse> getAllComments(@RequestParam Optional<Long> userId, @RequestParam Optional<Long> postId){
         return commentService.getAllComments(userId,postId);
     }
 

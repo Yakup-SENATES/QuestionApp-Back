@@ -24,3 +24,6 @@
 
 
 ....Security Layer
+
+
+https://www.baeldung.com/circular-dependencies-in-spring   circle hatasını çözmek için dependency lere @Lazy ekledik ancak setter de kullanılabilir

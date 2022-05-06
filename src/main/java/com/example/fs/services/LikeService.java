@@ -6,6 +6,7 @@ import com.example.fs.entities.User;
 import com.example.fs.repos.LikeRepository;
 import com.example.fs.request.LikeCreateRequest;
 import com.example.fs.response.LikeResponse;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public class LikeService {
     private LikeRepository likeRepository;
     private PostService postService;
 
-    public LikeService(LikeRepository likeRepository,UserService userService,  PostService postService) {
+    public LikeService(@Lazy LikeRepository likeRepository,@Lazy UserService userService,@Lazy PostService postService) {
         this.userService = userService;
         this.likeRepository = likeRepository;
         this.postService = postService;
@@ -35,7 +36,7 @@ public class LikeService {
                 list=  likeRepository.findByPostId(postId);
             }else
                 list = likeRepository.findAll();
-                return list.stream().map(like -> new LikeResponse(like)).collect(Collectors.toList());
+                return list.stream().map(LikeResponse::new).collect(Collectors.toList());
 
     }
 

@@ -3,6 +3,7 @@ package com.example.fs.controllers;
 import com.example.fs.entities.Post;
 import com.example.fs.request.PostCreateRequest;
 import com.example.fs.request.PostUpdateRequest;
+import com.example.fs.response.PostResponse;
 import com.example.fs.services.PostService;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,9 +21,10 @@ public class PostController {
     }
 
     @GetMapping
-    public List<Post> getAllPosts(@RequestParam Optional<Long> userId){
+    public List<PostResponse> getAllPosts(@RequestParam Optional<Long> userId){
         return postService.getAllPosts(userId);
     }
+
     /*
     *RequestParam gelen request deki değerleri parse ederek alır
     * PathVariable ise direk parametreyi olduğu gibi alır

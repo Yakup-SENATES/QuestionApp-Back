@@ -6,10 +6,14 @@ import com.example.fs.entities.User;
 import com.example.fs.repos.CommentRepository;
 import com.example.fs.request.CommentCreateRequest;
 import com.example.fs.request.CommentUpdateRequest;
+import com.example.fs.response.CommentResponse;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 @Service
 public class CommentService {
 
@@ -20,7 +24,7 @@ public class CommentService {
     /*
     * Constructor
     */
-    public CommentService(CommentRepository commentRepository, UserService userService, PostService postService) {
+    public CommentService(@Lazy CommentRepository commentRepository,@Lazy UserService userService,@Lazy PostService postService) {
         this.commentRepository = commentRepository;
         this.userService = userService;
         this.postService = postService;
@@ -29,17 +33,17 @@ public class CommentService {
     /*
     * get ALl Comments
     * */
-    public List<Comments> getAllComments(Optional<Long> userId ,Optional<Long> postId) {
-
+    public List<CommentResponse> getAllComments(Optional<Long> userId , Optional<Long> postId) {
+        List<Comments> comments;
         if (userId.isPresent() && postId.isPresent()){
-            return commentRepository.findByUserIdAndPostId(userId.get(),postId.get());
+            comments= commentRepository.findByUserIdAndPostId(userId.get(),postId.get());
         }else if (userId.isPresent()){
-            return commentRepository.findByUserId(userId.get());
+            comments= commentRepository.findByUserId(userId.get());
         }else if (postId.isPresent()){
-            return commentRepository.findByPostId(postId.get());
+            comments= commentRepository.findByPostId(postId.get());
         }else
-            return commentRepository.findAll();
-    }
+            comments= commentRepository.findAll();
+        return comments.stream().map(comment-> new CommentResponse(comment)).collect(Collectors.toList());    }
 
     public Comments getComment(Long commentId) {
         return commentRepository.findById(commentId).orElse(null);
