@@ -31,12 +31,13 @@ public class LikeService {
             if (userId.isPresent() && postId.isPresent() ){
                 list =likeRepository.findByUserIdAndPostId(userId.get(), postId.get());
             }else if (userId.isPresent()){
-                list= likeRepository.findByUserId(userId);
+                list= likeRepository.findByUserId(userId.get());
             }else if (postId.isPresent()){
-                list=  likeRepository.findByPostId(postId);
+                list=  likeRepository.findByPostId(postId.get());
             }else
                 list = likeRepository.findAll();
-                return list.stream().map(LikeResponse::new).collect(Collectors.toList());
+        System.out.println(list);
+        return list.stream().map(LikeResponse::new).collect(Collectors.toList());
 
     }
 
