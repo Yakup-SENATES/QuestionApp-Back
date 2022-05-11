@@ -5,7 +5,6 @@ import com.example.fs.services.UserService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
@@ -29,6 +28,7 @@ public class UserController {
 
     @GetMapping(path = "/{userId}")
     public User getUserById(@PathVariable Long userId){
+        System.out.println("UC-31"+userId);
         return userService.getUserById(userId);
     }
 
@@ -41,6 +41,13 @@ public class UserController {
     public void deleteUser(@PathVariable Long userId){
         userService.deleteUser(userId);
     }
+
+    @GetMapping("/activity/{userId}")
+    public List<Object> getUserActivity(@PathVariable Long userId){
+        System.out.println("hii");
+        return userService.getUserActivity(userId);
+    }
+
 }
 
 

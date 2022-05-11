@@ -10,6 +10,7 @@ import com.example.fs.response.CommentResponse;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -43,7 +44,11 @@ public class CommentService {
             comments= commentRepository.findByPostId(postId.get());
         }else
             comments= commentRepository.findAll();
-        return comments.stream().map(comment-> new CommentResponse(comment)).collect(Collectors.toList());    }
+        return comments.stream().map(CommentResponse::new).collect(Collectors.toList());    }
+
+    /*
+    Get One Comment
+    */
 
     public Comments getComment(Long commentId) {
         return commentRepository.findById(commentId).orElse(null);
@@ -58,6 +63,7 @@ public class CommentService {
             newComment.setText(request.getText());
             newComment.setPost(post);
             newComment.setUser(user);
+            newComment.setCreateDate(new Date());
             return commentRepository.save(newComment);
         }
         return null;

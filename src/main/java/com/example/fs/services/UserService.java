@@ -1,6 +1,9 @@
 package com.example.fs.services;
 
 import com.example.fs.entities.User;
+import com.example.fs.repos.CommentRepository;
+import com.example.fs.repos.LikeRepository;
+import com.example.fs.repos.PostRepository;
 import com.example.fs.repos.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -10,11 +13,16 @@ import java.util.Optional;
 @Service
 public class UserService {
     UserRepository userRepository;
+    LikeRepository likeRepository;
+    CommentRepository commentRepository;
+    PostRepository postRepository;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, LikeRepository likeRepository, CommentRepository commentRepository, PostRepository postRepository) {
         this.userRepository = userRepository;
+        this.likeRepository = likeRepository;
+        this.commentRepository = commentRepository;
+        this.postRepository = postRepository;
     }
-
 
     /*
     * Get All Users
@@ -62,5 +70,16 @@ public class UserService {
 
     public User getUserByName(String userName) {
         return userRepository.findByUserName(userName);
+    }
+
+
+    public List<Object> getUserActivity(Long userId) {
+
+            List<Long> postIds = postRepository.findTopByUserId(userId);
+        System.out.println(postIds+"userId:"+userId);
+            if (postIds.isEmpty()) return null;
+
+        System.out.println(commentRepository.findUserCommentsByPostId(postIds));
+        return null;
     }
 }

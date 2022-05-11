@@ -11,6 +11,7 @@ import com.example.fs.response.PostResponse;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -69,6 +70,7 @@ public class PostService {
         post.setId(newPostRequest.getId());
         post.setText(newPostRequest.getText());
         post.setTitle(newPostRequest.getTitle());
+        post.setCreateDate(new Date());
         post.setUser(user);
         return postRepository.save(post);
     }

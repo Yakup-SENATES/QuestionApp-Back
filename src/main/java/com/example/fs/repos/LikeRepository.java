@@ -1,5 +1,6 @@
 package com.example.fs.repos;
 
+import com.example.fs.entities.Comments;
 import com.example.fs.entities.Like;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -21,5 +22,6 @@ public interface LikeRepository extends JpaRepository<Like, Long> {
             + "p_like l left join user u on u.id = l.user_id "
             + "where l.post_id in :postIds limit 5", nativeQuery = true)
     List<Object> findUserLikesByPostId(@Param("postIds") List<Long> postIds);
+
 
 }
